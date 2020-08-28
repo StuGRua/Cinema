@@ -1,19 +1,18 @@
 package DBopeartion.impl;
 
-import DBopeartion.UserDao;
 import DBopeartion.BaseDao;
+import DBopeartion.UserDao;
 import Entity.Audience;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class UserDaoImpl extends BaseDao implements UserDao  {
+public class UserDaoImpl extends BaseDao implements UserDao {
     private Connection conn = null; // 保存数据库连接
 
     private PreparedStatement prepareSql = null; // 用于执行SQL语句
@@ -22,15 +21,15 @@ public class UserDaoImpl extends BaseDao implements UserDao  {
 
     @Override
     public List<Audience> getAllUser() {
-        List<Audience> auidentsList=new ArrayList<Audience>();
+        List<Audience> auidentsList = new ArrayList<Audience>();
         String sql = "select * from Audience";
-        try{
-            conn=getConn();
-            prepareSql =conn.prepareStatement(sql);
+        try {
+            conn = getConn();
+            prepareSql = conn.prepareStatement(sql);
 
-            rs= prepareSql.executeQuery();
-            while(rs.next()){
-                Audience audience =new Audience();
+            rs = prepareSql.executeQuery();
+            while (rs.next()) {
+                Audience audience = new Audience();
                 audience.setAud_id(rs.getInt(1));
                 audience.setAud_name(rs.getString(2));
                 audience.setAid_password(rs.getString(3));
@@ -38,10 +37,10 @@ public class UserDaoImpl extends BaseDao implements UserDao  {
                 audience.setAud_type(rs.getString(5));
                 auidentsList.add(audience);
             }
-        }catch (SQLException | ClassNotFoundException e){
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         } finally {
-            super.closeAll(conn, prepareSql,rs);
+            super.closeAll(conn, prepareSql, rs);
         }
 
 
@@ -51,8 +50,8 @@ public class UserDaoImpl extends BaseDao implements UserDao  {
     @Override
     public int AddUser(Audience user) {
         String sql = "insert into audience values (?,?,?,?,?)";
-        Object[] param={user.getAud_id(), user.getAud_name(),user.getAid_password(),user.getAud_tel(),user.getAud_type()};
-        return executeSQL(sql,param);
+        Object[] param = {user.getAud_id(), user.getAud_name(), user.getAid_password(), user.getAud_tel(), user.getAud_type()};
+        return executeSQL(sql, param);
 
     }
 }

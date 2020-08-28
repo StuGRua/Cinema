@@ -16,6 +16,6 @@ public class ChangeShowDaoImpl extends BaseDao implements ChangeShowDao {
 
     @Override
     public int updateShow(String sql, Object[] param) {
-        return super.executeSQL(sql,param);
+        return super.executeSQL(sql, param);
     }
 }

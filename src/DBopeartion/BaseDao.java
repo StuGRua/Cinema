@@ -1,32 +1,35 @@
 package DBopeartion;
-import java.io.*;
+
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.*;
-import java.util.*;
+import java.util.Properties;
 
 public class BaseDao {
     public static String DRIVER; // 数据库驱动
 
-    public static String URL ; // url
+    public static String URL; // url
 
     public static String DBNAME; // 数据库用户名
 
     public static String PASSWORD; // 数据库密码
 
-    Connection conn = null;// 数据连接对象
-
     static {
         init();
     }
+
+    Connection conn = null;// 数据连接对象
+
     /**
      * 初始化连接参数,从配置文件里获得
      */
-    public static void init(){
-        Properties params=new Properties();
-       // String configFile = "databaseForSqlite.properties";//配置文件路径
+    public static void init() {
+        Properties params = new Properties();
+        // String configFile = "databaseForSqlite.properties";//配置文件路径
         String configFile = "database.properties";//配置文件路径
         //加载配置文件到输入流中
-        InputStream is=BaseDao.class.getClassLoader().getResourceAsStream(configFile);
-        if(is!=null) {
+        InputStream is = BaseDao.class.getClassLoader().getResourceAsStream(configFile);
+        if (is != null) {
             try {
                 //从输入流中读取属性列表
                 params.load(is);
@@ -34,17 +37,18 @@ public class BaseDao {
                 e.printStackTrace();
             }
             //根据指定的获取对应的值
-            DRIVER=params.getProperty("driver");
-            URL=params.getProperty("url");
-            DBNAME=params.getProperty("user");
-            PASSWORD =params.getProperty("password");
-        }else {
-            DRIVER="com.mysql.jdbc.Driver";
-            URL="jdbc:mysql://localhost:3306/cinema?useUnicode=true&characterEncoding=UTF-8";
-            DBNAME="root";
-            PASSWORD ="123456";
+            DRIVER = params.getProperty("driver");
+            URL = params.getProperty("url");
+            DBNAME = params.getProperty("user");
+            PASSWORD = params.getProperty("password");
+        } else {
+            DRIVER = "com.mysql.jdbc.Driver";
+            URL = "jdbc:mysql://localhost:3306/cinema?useUnicode=true&characterEncoding=UTF-8";
+            DBNAME = "root";
+            PASSWORD = "123456";
         }
     }
+
     /**
      * 得到数据库连接
      *
@@ -60,19 +64,17 @@ public class BaseDao {
         }
         return conn; // 返回连接
     }
+
     /**
      * 释放资源
      *
-     * @param conn
-     *            数据库连接
-     * @param prepareSql
-     *            PreparedStatement对象
-     * @param rs
-     *            结果集
+     * @param conn       数据库连接
+     * @param prepareSql PreparedStatement对象
+     * @param rs         结果集
      */
     public void closeAll(Connection conn, PreparedStatement prepareSql, ResultSet rs) {
 
-		/* 如果rs不空，关闭rs */
+        /* 如果rs不空，关闭rs */
         if (rs != null) {
             try {
                 rs.close();
@@ -80,7 +82,7 @@ public class BaseDao {
                 e.printStackTrace();
             }
         }
-		/* 如果prepareSql不空，关闭prepareSql */
+        /* 如果prepareSql不空，关闭prepareSql */
         if (prepareSql != null) {
             try {
                 prepareSql.close();
@@ -88,7 +90,7 @@ public class BaseDao {
                 e.printStackTrace();
             }
         }
-		/* 如果conn不空，关闭conn */
+        /* 如果conn不空，关闭conn */
         if (conn != null) {
             try {
                 conn.close();
@@ -98,12 +100,11 @@ public class BaseDao {
         }
 
     }
+
     /**
      * 执行SQL语句，可以进行增、删、改的操作，不能执行查询
      *
-     *
-     * @param param
-     *            预编译的 SQL 语句中的‘？’参数的字符串数组
+     * @param param 预编译的 SQL 语句中的‘？’参数的字符串数组
      * @return 影响的条数
      */
     public int executeSQL(String preparedSql, Object[] param) {
@@ -111,7 +112,7 @@ public class BaseDao {
         PreparedStatement prepareSql = null;
         int num = 0;
 
-		/* 处理SQL,执行SQL */
+        /* 处理SQL,执行SQL */
         try {
             conn = getConn(); // 得到数据库连接
             prepareSql = conn.prepareStatement(preparedSql); // 得到PreparedStatement对象

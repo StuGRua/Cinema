@@ -11,12 +11,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HallDaoImpl extends BaseDao implements HallDao{
+public class HallDaoImpl extends BaseDao implements HallDao {
     private Connection conn = null; // 保存数据库连接
 
     private PreparedStatement prepareSql = null; // 用于执行SQL语句
 
     private ResultSet rs = null; // 用户保存查询到的结果集
+
     @Override
     public List<Hall> findHall() {
 
@@ -24,29 +25,29 @@ public class HallDaoImpl extends BaseDao implements HallDao{
     }
 
     @Override
-    public List<Hall> getHall(String sql,String[] param) {
-        List<Hall> hallList=new ArrayList<Hall>();
-        try{
-            conn=getConn();
-            prepareSql =conn.prepareStatement(sql);
-            if(param!=null){
-                for(int i=0;i<param.length;i++) {
-                    prepareSql.setString(i+1,param[i]);
+    public List<Hall> getHall(String sql, String[] param) {
+        List<Hall> hallList = new ArrayList<Hall>();
+        try {
+            conn = getConn();
+            prepareSql = conn.prepareStatement(sql);
+            if (param != null) {
+                for (int i = 0; i < param.length; i++) {
+                    prepareSql.setString(i + 1, param[i]);
                 }
             }
-            rs= prepareSql.executeQuery();
-            while(rs.next()){
-                Hall hall=new Hall();
+            rs = prepareSql.executeQuery();
+            while (rs.next()) {
+                Hall hall = new Hall();
                 hall.setHallId(rs.getInt(1));
                 hall.setHallType(rs.getString(2));
                 hall.setHallRowSum(rs.getInt(3));
                 hall.setHallLineSum(rs.getInt(4));
                 hallList.add(hall);
             }
-        }catch (SQLException | ClassNotFoundException e){
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         } finally {
-            super.closeAll(conn, prepareSql,rs);
+            super.closeAll(conn, prepareSql, rs);
         }
         return hallList;
     }

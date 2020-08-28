@@ -8,7 +8,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +20,7 @@ public class ChangeMovieDaoImpl extends BaseDao implements ChangeMovieDao {
 
     @Override
     public int updateMovie(String sql, Object[] param) {
-        return super.executeSQL(sql,param);
+        return super.executeSQL(sql, param);
     }
 
     @Override
@@ -30,13 +29,13 @@ public class ChangeMovieDaoImpl extends BaseDao implements ChangeMovieDao {
 
         String sql = "select * from movie";
 
-        try{
-            conn=getConn();
-            prepareSql =conn.prepareStatement(sql);
+        try {
+            conn = getConn();
+            prepareSql = conn.prepareStatement(sql);
 
-            rs= prepareSql.executeQuery();
-            while(rs.next()){
-                Movie movie=new Movie();
+            rs = prepareSql.executeQuery();
+            while (rs.next()) {
+                Movie movie = new Movie();
                 movie.setMovie_id(rs.getInt(1));
                 movie.setMovie_name(rs.getString(2));
                 movie.setMovie_baseprice(rs.getFloat(3));
@@ -45,28 +44,28 @@ public class ChangeMovieDaoImpl extends BaseDao implements ChangeMovieDao {
                 movie.setLast_time(rs.getInt(6));
                 movieList.add(movie);
             }
-        }catch (SQLException | ClassNotFoundException e){
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         } finally {
-            super.closeAll(conn, prepareSql,rs);
+            super.closeAll(conn, prepareSql, rs);
         }
         return movieList;
     }
 
     @Override
     public Movie getMovie(Object[] param) {
-        Movie movie=new Movie();
-        String sql="select * from Movie where Movie_id=?";
-        try{
-            conn=getConn();
-            prepareSql =conn.prepareStatement(sql);
-            if(param!=null){
-                for(int i=0;i<param.length;i++) {
-                    prepareSql.setObject(i+1,param[i]);
+        Movie movie = new Movie();
+        String sql = "select * from Movie where Movie_id=?";
+        try {
+            conn = getConn();
+            prepareSql = conn.prepareStatement(sql);
+            if (param != null) {
+                for (int i = 0; i < param.length; i++) {
+                    prepareSql.setObject(i + 1, param[i]);
                 }
             }
-            rs= prepareSql.executeQuery();
-            while(rs.next()){
+            rs = prepareSql.executeQuery();
+            while (rs.next()) {
                 movie.setMovie_id(rs.getInt(1));
                 movie.setMovie_name(rs.getString(2));
                 movie.setMovie_baseprice(rs.getFloat(3));
@@ -74,10 +73,10 @@ public class ChangeMovieDaoImpl extends BaseDao implements ChangeMovieDao {
                 movie.setMovie_endtime(rs.getTimestamp(5));
                 movie.setLast_time(rs.getInt(6));
             }
-        }catch (SQLException | ClassNotFoundException e){
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         } finally {
-            super.closeAll(conn, prepareSql,rs);
+            super.closeAll(conn, prepareSql, rs);
         }
         return movie;
     }

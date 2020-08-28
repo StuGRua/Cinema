@@ -1,6 +1,7 @@
 package Entity;
 
 import java.sql.Timestamp;
+
 public class Movie {
     private int Movie_id;
     private String Movie_name;
@@ -9,7 +10,8 @@ public class Movie {
     private Timestamp Movie_endtime;
     private int Last_time;
 
-    public Movie(){}
+    public Movie() {
+    }
 
     public Movie(int movie_id, String movie_name, double movie_baseprice, Timestamp movie_starttime, Timestamp movie_endtime, int last_time) {
         Movie_id = movie_id;

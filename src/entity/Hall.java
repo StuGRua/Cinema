@@ -6,7 +6,9 @@ public class Hall {
     private int HallLineSum;
     private int HallRowSum;
 
-    public Hall(){}
+    public Hall() {
+    }
+
     /*
     public Hall(int id,String type,int linesum,int rowsum){
         this.HallId =id;

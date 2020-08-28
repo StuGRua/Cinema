@@ -12,16 +12,17 @@ public class Arrange {
 
     public Arrange() {
     }
-/*
-    public Arrange(int aud_id, int hall_id, int movie_id, int line, int row, Timestamp arrange_time) {
-        Aud_id = aud_id;
-        Hall_id = hall_id;
-        Movie_id = movie_id;
-        Line = line;
-        Row = row;
-        Arrange_time = arrange_time;
-    }
-*/
+
+    /*
+        public Arrange(int aud_id, int hall_id, int movie_id, int line, int row, Timestamp arrange_time) {
+            Aud_id = aud_id;
+            Hall_id = hall_id;
+            Movie_id = movie_id;
+            Line = line;
+            Row = row;
+            Arrange_time = arrange_time;
+        }
+    */
     public int getAud_id() {
         return Aud_id;
     }

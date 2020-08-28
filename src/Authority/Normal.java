@@ -5,7 +5,10 @@ package Authority;
  */
 public interface Normal {
     void order();
+
     void refund();
+
     void search();
+
     void change();
 }

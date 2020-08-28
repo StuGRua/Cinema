@@ -7,13 +7,15 @@ public class Audience {
     private String Aud_type;
     private String Aid_password;
 
-    public Audience(){}
-    public Audience(int id, String name, String tel, String type, String password){
-        this.Aud_id=id;
-        this.Aud_name=name;
-        this.Aud_tel=tel;
-        this.Aud_type=type;
-        this.Aid_password=password;
+    public Audience() {
+    }
+
+    public Audience(int id, String name, String tel, String type, String password) {
+        this.Aud_id = id;
+        this.Aud_name = name;
+        this.Aud_tel = tel;
+        this.Aud_type = type;
+        this.Aid_password = password;
     }
 
     public String getAid_password() {

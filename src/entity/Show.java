@@ -1,6 +1,7 @@
 package Entity;
 
 import java.sql.Timestamp;
+
 public class Show {
     private int Hall_id;
     private int Movie_id;
