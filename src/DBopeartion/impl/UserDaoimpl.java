@@ -32,7 +32,7 @@ public class UserDaoImpl extends BaseDao implements UserDao {
                 Audience audience = new Audience();
                 audience.setAud_id(rs.getInt(1));
                 audience.setAud_name(rs.getString(2));
-                audience.setAid_password(rs.getString(3));
+                audience.setAud_password(rs.getString(3));
                 audience.setAud_tel(rs.getString(4));
                 audience.setAud_type(rs.getString(5));
                 auidentsList.add(audience);
@@ -50,7 +50,7 @@ public class UserDaoImpl extends BaseDao implements UserDao {
     @Override
     public int AddUser(Audience user) {
         String sql = "insert into audience values (?,?,?,?,?)";
-        Object[] param = {user.getAud_id(), user.getAud_name(), user.getAid_password(), user.getAud_tel(), user.getAud_type()};
+        Object[] param = {user.getAud_id(), user.getAud_name(), user.getAud_password(), user.getAud_tel(), user.getAud_type()};
         return executeSQL(sql, param);
 
     }

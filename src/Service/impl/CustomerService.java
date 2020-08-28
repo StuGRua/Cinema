@@ -12,8 +12,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
-public class CustomService extends Service implements Ticket {
-    public CustomService(int Aud_id) {
+public class CustomerService extends Service implements Ticket {
+    public CustomerService(int Aud_id) {
         super(Aud_id);
     }
 

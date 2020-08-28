@@ -1,12 +1,12 @@
 package User;
 
-import Authority.Manager;
+import Authority._Manager;
 import Authority.Normal;
 
 
 public class Role {
     private String description;// 角色名
-    private Manager manager = null;//管理权限
+    private _Manager manager = null;//管理权限
     private Normal normal = null;//顾客权限
 
     //常用函数
@@ -18,11 +18,11 @@ public class Role {
         this.description = description;
     }
 
-    public Manager getManager() {
+    public _Manager getManager() {
         return manager;
     }
 
-    public void setMange(Manager Mgr) {
+    public void setMange(_Manager Mgr) {
         this.manager = Mgr;
     }
 

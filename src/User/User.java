@@ -1,7 +1,7 @@
 package User;
 
-import Authority.impl.DefaultCustomer;
-import Authority.impl.DefaultManager;
+import Authority.impl.Customer;
+import Authority.impl.Manager;
 import DBopeartion.UserDao;
 import DBopeartion.impl.UserDaoImpl;
 import Entity.Audience;
@@ -40,38 +40,38 @@ public class User {
         if (!map.containsKey(username)) {
             System.out.println("用户名不存在！");
             return false;
-        } else if (map.get(username).getAid_password().equals(password) && map.get(username).getAud_type().equals("Manger")) {
+        } else if (map.get(username).getAud_password().equals(password) && map.get(username).getAud_type().equals("Manger")) {
             role.setDescription("管理员");
-            DefaultManager admin = new DefaultManager(map.get(username).getAud_id());
+            Manager admin = new Manager(map.get(username).getAud_id());
             role.setMange(admin);
             return true;
         } else if (map.get(username).getAud_type().equals("Manger")) {
             System.out.println("管理员密码错误");
             return false;
-        } else if (!map.get(username).getAid_password().equals(password)) {
+        } else if (!map.get(username).getAud_password().equals(password)) {
             System.out.println("密码错误！重新输入");
             password = scanner.next();
-            if (!map.get(username).getAid_password().equals(password)) {
+            if (!map.get(username).getAud_password().equals(password)) {
                 System.out.println("密码错误！重新输入");
                 password = scanner.next();
-                if (!map.get(username).getAid_password().equals(password)) {
+                if (!map.get(username).getAud_password().equals(password)) {
                     System.out.println("输入错误三次，本次登陆失败");
                     return false;
                 } else {
                     role.setDescription("用户");
-                    DefaultCustomer audience = new DefaultCustomer(map.get(username).getAud_id());
+                    Customer audience = new Customer(map.get(username).getAud_id());
                     role.setNormal(audience);
                     return true;
                 }
             } else {
                 role.setDescription("用户");
-                DefaultCustomer audience = new DefaultCustomer(map.get(username).getAud_id());
+                Customer audience = new Customer(map.get(username).getAud_id());
                 role.setNormal(audience);
                 return true;
             }
         } else {
             role.setDescription("用户");
-            DefaultCustomer audience = new DefaultCustomer(map.get(username).getAud_id());
+            Customer audience = new Customer(map.get(username).getAud_id());
             role.setNormal(audience);
             return true;
         }

@@ -833,18 +833,24 @@ Row</ColNames>
     </foreign-key>
     <foreign-key id="251" parent="235" name="arrange_ibfk_2">
       <ColNames>Hall_id</ColNames>
-      <RefTableName>moviehall</RefTableName>
+      <RefTableName>show</RefTableName>
       <RefColNames>Hall_id</RefColNames>
+      <OnUpdate>cascade</OnUpdate>
+      <OnDelete>cascade</OnDelete>
     </foreign-key>
     <foreign-key id="252" parent="235" name="arrange_ibfk_3">
       <ColNames>Movie_id</ColNames>
-      <RefTableName>movie</RefTableName>
+      <RefTableName>show</RefTableName>
       <RefColNames>Movie_id</RefColNames>
+      <OnUpdate>cascade</OnUpdate>
+      <OnDelete>cascade</OnDelete>
     </foreign-key>
     <foreign-key id="253" parent="235" name="arrange_ibfk_4">
       <ColNames>Arrange_time</ColNames>
       <RefTableName>show</RefTableName>
       <RefColNames>Show_time</RefColNames>
+      <OnUpdate>cascade</OnUpdate>
+      <OnDelete>cascade</OnDelete>
     </foreign-key>
     <column id="254" parent="236" name="Aud_id">
       <Position>1</Position>
@@ -972,6 +978,8 @@ Show_time</ColNames>
       <ColNames>Movie_id</ColNames>
       <RefTableName>movie</RefTableName>
       <RefColNames>Movie_id</RefColNames>
+      <OnUpdate>cascade</OnUpdate>
+      <OnDelete>cascade</OnDelete>
     </foreign-key>
   </database-model>
 </dataSource>

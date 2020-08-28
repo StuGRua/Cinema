@@ -77,6 +77,8 @@ public class ManagerService extends Service implements ChangeShow, ChangeMovie {
 
     @Override
     public void addShow() {
+        System.out.println("电影信息：");
+        printAllMovie();
         Scanner input = new Scanner(System.in);
         System.out.println("请输入电影id：");
         int movie_id = input.nextInt();
@@ -103,6 +105,10 @@ public class ManagerService extends Service implements ChangeShow, ChangeMovie {
 
     @Override
     public void delShow() {
+        System.out.println("电影信息：");
+        printAllMovie();
+        System.out.println("放映信息：");
+        getArrange();
         Scanner input = new Scanner(System.in);
         System.out.println("请输入电影id：");
         int movie_id = input.nextInt();
@@ -121,7 +127,7 @@ public class ManagerService extends Service implements ChangeShow, ChangeMovie {
             int count = changeShowDaoimpl.updateShow(str, param);
             if (count > 0) {
                 System.out.println("成功删除：" + temp.getHall_id() + "号大厅" + temp.getShow_time() + "场次电影");
-            }
+            }else System.out.println("删除失败，未找到该场次！");
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -218,7 +224,7 @@ public class ManagerService extends Service implements ChangeShow, ChangeMovie {
         for (Audience value : audienceList) {
             Audience audience = new Audience();
             audience = value;
-            System.out.format("%-8d\t%-20s\t%-20s\t%-15s\t%-10s\n", audience.getAud_id(), audience.getAud_name(), audience.getAid_password(), audience.getAud_tel(), audience.getAud_type());
+            System.out.format("%-8d\t%-20s\t%-20s\t%-15s\t%-10s\n", audience.getAud_id(), audience.getAud_name(), audience.getAud_password(), audience.getAud_tel(), audience.getAud_type());
         }
 
     }

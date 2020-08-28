@@ -5,7 +5,7 @@ public class Audience {
     private String Aud_name;
     private String Aud_tel;
     private String Aud_type;
-    private String Aid_password;
+    private String Aud_password;
 
     public Audience() {
     }
@@ -15,15 +15,15 @@ public class Audience {
         this.Aud_name = name;
         this.Aud_tel = tel;
         this.Aud_type = type;
-        this.Aid_password = password;
+        this.Aud_password = password;
     }
 
-    public String getAid_password() {
-        return Aid_password;
+    public String getAud_password() {
+        return Aud_password;
     }
 
-    public void setAid_password(String aid_password) {
-        Aid_password = aid_password;
+    public void setAud_password(String aud_password) {
+        Aud_password = aud_password;
     }
 
     public int getAud_id() {

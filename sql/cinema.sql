@@ -33,9 +33,9 @@ CREATE TABLE `Arrange` (
   KEY `Movie_id` (`Movie_id`),
   KEY `Arrange_time` (`Arrange_time`),
   CONSTRAINT `arrange_ibfk_1` FOREIGN KEY (`Aud_id`) REFERENCES `audience` (`Aud_id`),
-  CONSTRAINT `arrange_ibfk_2` FOREIGN KEY (`Hall_id`) REFERENCES `moviehall` (`Hall_id`),
-  CONSTRAINT `arrange_ibfk_3` FOREIGN KEY (`Movie_id`) REFERENCES `movie` (`Movie_id`),
-  CONSTRAINT `arrange_ibfk_4` FOREIGN KEY (`Arrange_time`) REFERENCES `show` (`Show_time`)
+  CONSTRAINT `arrange_ibfk_2` FOREIGN KEY (`Hall_id`) REFERENCES `show` (`Hall_id`) on update cascade on delete cascade,
+  CONSTRAINT `arrange_ibfk_3` FOREIGN KEY (`Movie_id`) REFERENCES `show` (`Movie_id`) on update cascade on delete cascade,
+  CONSTRAINT `arrange_ibfk_4` FOREIGN KEY (`Arrange_time`) REFERENCES `show` (`Show_time`) on update cascade on delete cascade
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------

@@ -1,14 +1,14 @@
 package Authority.impl;
 
-import Authority.Manager;
+import Authority._Manager;
 import Service.impl.ManagerService;
 
 
-public class DefaultManager implements Manager {
+public class Manager implements _Manager {
     private int Aud_id;
     public ManagerService managerservice = new ManagerService(Aud_id);
 
-    public DefaultManager(int aud_id) {
+    public Manager(int aud_id) {
         Aud_id = aud_id;
         managerservice.setAud_id(aud_id);
     }
