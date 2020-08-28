@@ -15,9 +15,9 @@ public class TicketDaoImpl extends BaseDao implements TicketDao {
 
     private PreparedStatement prepareSql = null; // 用于执行SQL语句
 
-    private ResultSet rs = null; // 用户保存查询到的\结果集
+    private ResultSet rs = null; // 用户保存查询到的结果集
     /**
-     *  得到当前时间下的 电影名 影厅号 时间 影厅类型 电影时长 电影类型 导演 票价
+     *  当前时间的 电影名 影厅号 时间 影厅类型 电影时长 票价
      *  */
 
     @Override
@@ -27,10 +27,10 @@ public class TicketDaoImpl extends BaseDao implements TicketDao {
             Date date=new Date();
             Timestamp timestamp=new Timestamp(date.getTime());
             String preparedSql;
-            preparedSql = "select Movie_name,show.Hall_id,show.Show_time,MovieHall.Type,Movie.last_time,Base_price " +
+            preparedSql = "select Movie_name,Show.Hall_id,Show.Show_time,MovieHall.Type,Movie.last_time,Base_price " +
                         "from `Show` join Movie on Show.Movie_id = Movie.Movie_id " +
                         "join MovieHall on Show.Hall_id=MovieHall.Hall_id " +
-                        "where show.Show_time>'" + timestamp + "'";
+                        "where Show.Show_time>'" + timestamp + "'";
             conn= getConn();
             prepareSql = conn.prepareStatement(preparedSql);
             rs = prepareSql.executeQuery(); //执行
@@ -39,8 +39,6 @@ public class TicketDaoImpl extends BaseDao implements TicketDao {
                 show.add(rs.getString(1)+"");
                 show.add(rs.getInt(2)+"");
                 show.add(rs.getTimestamp(3)+"");
-//                show.add(rs.getString(4)+"");
-//                show.add(rs.getInt(5)+"");
                 show.add(rs.getString(4)+"");
                 show.add(rs.getString(5)+"");
                 show.add(rs.getFloat(6)+"");

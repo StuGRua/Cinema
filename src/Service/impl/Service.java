@@ -42,7 +42,8 @@ public abstract class Service {
         List<List<String>> showList = ticket.findShow(Aud_id);
         List<String> movieList = new ArrayList<>();
                 /*
-                * 序号 电影名 影厅号 时间 影厅类型 电影时长 电影类型 导演 票价(base price+ add price)*/
+                * 序号 电影名 影厅号 时间 影厅类型 电影时长 票价
+                */
         System.out.println("序号\t\t\t电影名\t\t\t\t影厅号\t\t时间\t\t\t\t\t\t\t\t影厅类型\t\t\t\t电影时长\t\t\t\t票价");
         for (int i = 0; i < showList.size(); i++) {
             List<String> show = showList.get(i);
@@ -65,13 +66,13 @@ public abstract class Service {
         }
     }
     public void printAllMovie(){
-        System.out.println("序号\t\t\t电影名\t\t\t\t电影票价\t\t上架时间\t\t\t\t\t\t下映时间\t\t\t\t\t\t电影时长");
+        System.out.println("序号\t\t\t电影名\t\t\t\t\t电影票价\t\t上架时间\t\t\t\t\t\t下映时间\t\t\t\t\t\t电影时长");
         ChangeMovieDao MovieDao = new ChangeMovieDaoImpl();
         List<Movie> movieList= MovieDao.getAllMovie();
         for (Movie value : movieList) {
             Movie movie = new Movie();
             movie = value;
-            System.out.format("%-8d\t%-14s\t%-8s\t%-26s\t%-26s\t%-8s\n", movie.getMovie_id(), movie.getMovie_name(), movie.getMovie_baseprice() + "元", movie.getMovie_starttime(), movie.getMovie_endtime(), movie.getLast_time() + "分钟");
+            System.out.format("%-8d\t%-14s\t%s\t%-8s\t%-26s\t%-26s\t%-8s\n", movie.getMovie_id(), movie.getMovie_name(),"|", movie.getMovie_baseprice() + "元", movie.getMovie_starttime(), movie.getMovie_endtime(), movie.getLast_time() + "分钟");
         }
     }
 }
