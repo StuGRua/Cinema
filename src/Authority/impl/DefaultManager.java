@@ -4,9 +4,7 @@ import Authority.Manager;
 
 import Service.impl.ManagerService;
 
-/**
- * Created by diandian on 2019/7/7.
- */
+
 public class DefaultManager implements Manager {
     private int Aud_id;
     public ManagerService managerservice =new ManagerService(Aud_id);

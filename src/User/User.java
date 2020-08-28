@@ -3,8 +3,8 @@ package User;
 import Authority.impl.DefaultCustomer;
 import Authority.impl.DefaultManager;
 import DBopeartion.UserDao;
-import DBopeartion.impl.UserDaoimpl;
-import entity.Auident;
+import DBopeartion.impl.UserDaoImpl;
+import Entity.Audience;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
@@ -12,20 +12,18 @@ import java.util.Scanner;
 
 public class User {
     private Role role = null;
-    HashMap<String,Auident> map=new HashMap<String,Auident>();
-    public UserDao  uerdao= new UserDaoimpl();
+    HashMap<String, Audience> map= new HashMap<>();
+    public UserDao userdao = new UserDaoImpl();
     public String username;
     //读取观众信息
     public boolean init(){
-        List <Auident> auidentList = uerdao.getAllUser();
-        for(int i=0;i<auidentList.size();i++){
-            Auident auident = new Auident();
-            auident = auidentList.get(i);
-            map.put(auident.getAud_name(),auident);
+        List <Audience> audienceList = userdao.getAllUser();
+        for (Audience value : audienceList) {
+            Audience audience = new Audience();
+            audience = value;
+            map.put(audience.getAud_name(), audience);
         }
-        if(map.size()>0)
-            return true;
-        return false;
+        return map.size() > 0;
     }
     //用户登录
     public boolean login(){
@@ -88,7 +86,6 @@ public class User {
             if(map.containsKey(name))
             {
                 System.out.println("用户名已存在");
-                return false;
             }
             else
             {
@@ -99,13 +96,13 @@ public class User {
                     System.out.println("请输入您的电话");
                     String tel = scanner.next();
                     save(map.size()+1,name,tel,"User",password);
-                    map.put(name,new Auident(map.size()+1,name,tel,"User",password));
+                    map.put(name,new Audience(map.size()+1,name,tel,"User",password));
                     return true;
                 }
                 else
                     System.out.println("两次密码输入必须相同！");
-                return false;
             }
+            return false;
         }
         else
             System.out.println("请输入正确长度的用户名！");
@@ -113,8 +110,8 @@ public class User {
     }
 
     public void save(int i,String name,String tel,String type, String password){
-        Auident auident = new Auident(i,name,tel,type,password);
-        if(uerdao.AddUser(auident)>0)
+        Audience audience = new Audience(i,name,tel,type,password);
+        if(userdao.AddUser(audience)>0)
             System.out.println("用户信息保存成功");
         else System.out.println("用户信息保存失败");
     }

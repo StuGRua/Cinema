@@ -1,56 +1,49 @@
-package entity;
+package Entity;
 
 public class Hall {
-    private int Hall_id;
-    private String Hall_type;
-    private int Hall_linesum;
-    private int Hall_rowsum;
-    private double Hall_addprice;
+    private int HallId;
+    private String HallType;
+    private int HallLineSum;
+    private int HallRowSum;
 
     public Hall(){}
-    public Hall(int id,String type,int linesum,int rowsum,double addprice){
-        this.Hall_id=id;
-        this.Hall_linesum=linesum;
-        this.Hall_rowsum=rowsum;
-        this.Hall_addprice=addprice;
+    /*
+    public Hall(int id,String type,int linesum,int rowsum){
+        this.HallId =id;
+        this.HallLineSum =linesum;
+        this.HallRowSum =rowsum;
     }
-    public int getHall_id() {
-        return Hall_id;
-    }
-
-    public void setHall_id(int hall_id) {
-        Hall_id = hall_id;
+     */
+    public int getHallId() {
+        return HallId;
     }
 
-    public String getHall_type() {
-        return Hall_type;
+    public void setHallId(int hallId) {
+        HallId = hallId;
     }
 
-    public void setHall_type(String hall_type) {
-        Hall_type = hall_type;
+    public String getHallType() {
+        return HallType;
     }
 
-    public int getHall_linesum() {
-        return Hall_linesum;
+    public void setHallType(String hallType) {
+        HallType = hallType;
     }
 
-    public void setHall_linesum(int hall_linesum) {
-        Hall_linesum = hall_linesum;
+    public int getHallLineSum() {
+        return HallLineSum;
     }
 
-    public int getHall_rowsum() {
-        return Hall_rowsum;
+    public void setHallLineSum(int hallLineSum) {
+        HallLineSum = hallLineSum;
     }
 
-    public void setHall_rowsum(int hall_rowsum) {
-        Hall_rowsum = hall_rowsum;
+    public int getHallRowSum() {
+        return HallRowSum;
     }
 
-    public double getHall_addprice() {
-        return Hall_addprice;
+    public void setHallRowSum(int hallRowSum) {
+        HallRowSum = hallRowSum;
     }
 
-    public void setHall_addprice(double hall_addprice) {
-        Hall_addprice = hall_addprice;
-    }
 }

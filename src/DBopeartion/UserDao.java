@@ -1,10 +1,9 @@
 package DBopeartion;
 
-import java.util.HashMap;
 import java.util.List;
-import entity.Auident;
+import Entity.Audience;
 
 public interface UserDao {
-    public abstract List<Auident> getAllUser();
-    public abstract int AddUser(Auident user);
+    List<Audience> getAllUser();
+    int AddUser(Audience user);
 }

@@ -2,16 +2,16 @@ package Service.impl;
 
 import DBopeartion.ChangeMovieDao;
 import DBopeartion.UserDao;
-import DBopeartion.impl.ChangeMovieDaoimpl;
-import DBopeartion.impl.ChangeShowDaoimpl;
-import DBopeartion.impl.UserDaoimpl;
-import DBopeartion.impl.TicketDaoimpl;
+import DBopeartion.impl.ChangeMovieDaoImpl;
+import DBopeartion.impl.ChangeShowDaoImpl;
+import DBopeartion.impl.UserDaoImpl;
+import DBopeartion.impl.TicketDaoImpl;
 import DBopeartion.TicketDao;
 import Service.ChangeMovie;
 import Service.ChangeShow;
-import entity.Auident;
-import entity.Movie;
-import entity.Show;
+import Entity.Audience;
+import Entity.Movie;
+import Entity.Show;
 
 import java.sql.Timestamp;
 import java.text.ParseException;
@@ -50,7 +50,7 @@ public class ManagerService extends Service implements ChangeShow, ChangeMovie{
                     "Start_time,End_time,last_time) values(?,?,?,?,?,?)";
             Object[] param={temp.getMovie_id(),temp.getMovie_name(),temp.getMovie_baseprice()
                     ,temp.getMovie_starttime(),temp.getMovie_endtime(),temp.getLast_time()};
-            ChangeMovieDaoimpl changeMovieDaoimpl=new ChangeMovieDaoimpl();
+            ChangeMovieDaoImpl changeMovieDaoimpl=new ChangeMovieDaoImpl();
             int count=changeMovieDaoimpl.updateMovie(sql,param);
             if(count>0)
                 System.out.println("成功添加："+temp.getMovie_name()+"影片");
@@ -65,7 +65,7 @@ public class ManagerService extends Service implements ChangeShow, ChangeMovie{
         int movie_id=input.nextInt();
         Movie temp=new Movie();
         temp.setMovie_id(movie_id);
-        ChangeMovieDao changeMovieDaoimpl=new ChangeMovieDaoimpl();
+        ChangeMovieDao changeMovieDaoimpl=new ChangeMovieDaoImpl();
         Object[] param={temp.getMovie_id()};
         temp=changeMovieDaoimpl.getMovie(param);
         String sql = "delete from Movie where Movie_id=?";
@@ -89,7 +89,7 @@ public class ManagerService extends Service implements ChangeShow, ChangeMovie{
             Show temp=new Show(hall_id,movie_id,show_time);
             String str="insert into `Show`(Hall_id,Movie_id,Show_time) values(?,?,?)";
             Object[] param={temp.getHall_id(),temp.getMovie_id(),temp.getShow_time()};
-            ChangeShowDaoimpl changeShowDaoimpl=new ChangeShowDaoimpl();
+            ChangeShowDaoImpl changeShowDaoimpl=new ChangeShowDaoImpl();
             int count=changeShowDaoimpl.updateShow(str,param);
             if(count>0){
                 System.out.println("成功添加："+temp.getHall_id()+"号大厅"+temp.getShow_time()+"场次电影");
@@ -114,7 +114,7 @@ public class ManagerService extends Service implements ChangeShow, ChangeMovie{
             Show temp=new Show(hall_id,movie_id,show_time);
             String str="delete from `Show` where Hall_id=? and Movie_id=? and Show_time=?";
             Object[] param={temp.getHall_id(),temp.getMovie_id(),temp.getShow_time()};
-            ChangeShowDaoimpl changeShowDaoimpl=new ChangeShowDaoimpl();
+            ChangeShowDaoImpl changeShowDaoimpl=new ChangeShowDaoImpl();
             int count=changeShowDaoimpl.updateShow(str,param);
             if(count>0){
                 System.out.println("成功删除："+temp.getHall_id()+"号大厅"+temp.getShow_time()+"场次电影");
@@ -156,7 +156,7 @@ public class ManagerService extends Service implements ChangeShow, ChangeMovie{
             Show temp2=new Show(movie_id_new,hall_id_new,show_time_new);
             String str="update Show set Hall_id=?,Movie_id=?,Show_time=? where Hall_id=? and Movie_id=? and Show_time=?";
             Object[] param={temp2.getHall_id(),temp2.getMovie_id(),temp2.getShow_time(),temp.getHall_id(),temp.getMovie_id(),temp.getShow_time()};
-            ChangeShowDaoimpl changeShowDaoimpl=new ChangeShowDaoimpl();
+            ChangeShowDaoImpl changeShowDaoimpl=new ChangeShowDaoImpl();
             int count=changeShowDaoimpl.updateShow(str,param);
             if(count>0){
                 System.out.println("成功修改为："+temp2.getHall_id()+"号大厅"+temp2.getShow_time()+"场次电影");
@@ -168,11 +168,9 @@ public class ManagerService extends Service implements ChangeShow, ChangeMovie{
     }
     public boolean find(String[] param){
         String sql="select * from show where Hall_id=? and Movie_id=? and Show_time=?";
-        TicketDao ticket=new TicketDaoimpl();
+        TicketDao ticket=new TicketDaoImpl();
         List<Show> showList=ticket.getShow(sql,param);
-        if(showList.size()>0)
-            return true;
-        return false;
+        return showList.size() > 0;
     }
     //管理员查询
     public void ManageFind(){
@@ -209,12 +207,12 @@ public class ManagerService extends Service implements ChangeShow, ChangeMovie{
 
     public void printAllUser(){
         System.out.println("序号\t\t\t用户名\t\t\t\t\t密码\t\t\t\t\t\t手机号\t\t\t用户类型");
-        UserDao userDao = new UserDaoimpl();
-        List<Auident> auidentsList = userDao.getAllUser();
-        for(int i=0;i<auidentsList.size();i++){
-            Auident auident = new Auident();
-            auident = auidentsList.get(i);
-            System.out.format("%-8d\t%-20s\t%-20s\t%-15s\t%-10s\n",auident.getAud_id(),auident.getAud_name(),auident.getAid_password(),auident.getAud_tel(),auident.getAud_type());
+        UserDao userDao = new UserDaoImpl();
+        List<Audience> audienceList = userDao.getAllUser();
+        for (Audience value : audienceList) {
+            Audience audience = new Audience();
+            audience = value;
+            System.out.format("%-8d\t%-20s\t%-20s\t%-15s\t%-10s\n", audience.getAud_id(), audience.getAud_name(), audience.getAid_password(), audience.getAud_tel(), audience.getAud_type());
         }
 
     }

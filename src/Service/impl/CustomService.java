@@ -1,11 +1,11 @@
 package Service.impl;
 
-import DBopeartion.impl.HallDaoimpl;
-import DBopeartion.impl.TicketDaoimpl;
+import DBopeartion.impl.HallDaoImpl;
+import DBopeartion.impl.TicketDaoImpl;
 import Service.Ticket;
-import entity.Arrange;
-import entity.Hall;
-import entity.Show;
+import Entity.Arrange;
+import Entity.Hall;
+import Entity.Show;
 
 import java.sql.Timestamp;
 import java.util.Date;
@@ -18,9 +18,9 @@ public class CustomService extends Service implements Ticket {
     }
 
     @Override
-    /**
-     * 订票实现
-     * */
+    /*
+      订票实现
+      */
 
     public void order(){
         List<String> movieList= getArrange();
@@ -36,7 +36,7 @@ public class CustomService extends Service implements Ticket {
             System.out.println("没有该电影");
             return;
         }
-        TicketDaoimpl ticket=new TicketDaoimpl();
+        TicketDaoImpl ticket=new TicketDaoImpl();
         String sql="select Show.Movie_id ,show.Show_time,show.Hall_id\n" +
                 "from `Show` join Movie on Movie.Movie_id =Show.Movie_id\n" +
                 "where Movie_name like ?";
@@ -80,14 +80,14 @@ public class CustomService extends Service implements Ticket {
         //得到当前影厅行数和列数
         String sql = "select * from MovieHall where Hall_id = ?";
         String[] param = {show.getHall_id()+""};
-        HallDaoimpl hallDaoimpl=new HallDaoimpl();
+        HallDaoImpl hallDaoimpl=new HallDaoImpl();
         List<Hall> hallList=hallDaoimpl.getHall(sql,param);
-        int row=hallList.get(0).getHall_rowsum();
-        int line=hallList.get(0).getHall_linesum();
+        int row=hallList.get(0).getHallRowSum();
+        int line=hallList.get(0).getHallLineSum();
         //得到当前选票数据
         sql = "select * from arrange where arrange.hall_id = ? and arrange.arrange_time = ?";
         String[] param1 = {show.getHall_id()+"",show.getShow_time()+""};
-        TicketDaoimpl ticket= new TicketDaoimpl();
+        TicketDaoImpl ticket= new TicketDaoImpl();
         List<Arrange> arrangeList=ticket.search(sql,param1);
         char[][] chars = new char[line][row];
         for(int i=0;i<line;i++){
@@ -95,13 +95,12 @@ public class CustomService extends Service implements Ticket {
                 chars[i][j]='_';
             }
         }
-        for(int i=0;i<arrangeList.size();i++){
-            Arrange arrange=arrangeList.get(i);
-            chars[arrange.getLine()-1][arrange.getRow()-1]='*';
+        for (Arrange arrange : arrangeList) {
+            chars[arrange.getLine() - 1][arrange.getRow() - 1] = '*';
         }
         //生成选座数组
-        int autoline=0;
-        int autorow=0;
+        int autoLine=0;
+        int autoRow=0;
         //缩小选座区域
         int font,back,left,right;
         font = line/4;
@@ -109,53 +108,53 @@ public class CustomService extends Service implements Ticket {
         left = row/4;
         right = row*3/4;
 
-        int tempi=font;
-        int tempj=left-1;
+        int temp_i=font;
+        int temp_j=left-1;
         boolean flag=false;
 
         for(int i=font;i<=back;i++){
             for(int j=left;j<=right;j++){
-                if(chars[i][j]=='*'&&flag==false){//____*<-____*____
+                if(chars[i][j]=='*'&& !flag){//____*<-____*____
                     if(j-left>=num){//前面够否？
-                        autoline=i;
-                        autorow = left;
+                        autoLine=i;
+                        autoRow = left;
                         break;
                     }
-                    tempi = i;
-                    tempj = j;
+                    temp_i = i;
+                    temp_j = j;
                     flag=true;
-                } else if(chars[i][j]=='*'&&flag==true){//_____*____*<-____
-                    if(j-tempj-1>=num){//中间够否？
-                        autoline = tempi;
-                        autorow = tempj+1;
+                } else if(chars[i][j]=='*'&& flag){//_____*____*<-____
+                    if(j-temp_j-1>=num){//中间够否？
+                        autoLine = temp_i;
+                        autoRow = temp_j+1;
                         break;
                     }else{
-                        tempi = i;
-                        tempj = j;
+                        temp_i = i;
+                        temp_j = j;
                     }
                 }
             }
-            if(right-tempj-1>=num){//后面够否？整行空
-                autoline = tempi;
-                autorow = tempj+1;
+            if(right-temp_j-1>=num){//后面够否？整行空
+                autoLine = temp_i;
+                autoRow = temp_j+1;
                 break;
             }else{
-                tempi=i+1;
-                tempj=left-1;
+                temp_i=i+1;
+                temp_j=left-1;
                 flag=false;
             }
         }
         //同时订多张连坐的实现
         int number=0;
-        autoline++;
-        autorow++;
-        String[] param2 = {super.getAud_id() + "", show.getHall_id() + "", show.getMovie_id() + "", autoline + "", (autorow+number) + "", show.getShow_time()+ ""};
+        autoLine++;
+        autoRow++;
+        String[] param2 = {super.getAud_id() + "", show.getHall_id() + "", show.getMovie_id() + "", autoLine + "", (autoRow+number) + "", show.getShow_time()+ ""};
         while(number!=num) {
             sql = "insert into arrange(Aud_id,Hall_id,Movie_id,line,row,Arrange_time) values(?,?,?,?,?,?)";
-            param2[4] = (autorow+number) + "";
+            param2[4] = (autoRow+number) + "";
             int count = ticket.insertArrange(sql, param2);
             if (count > 0) {
-                System.out.println("购票成功！在第"+autoline+"排第"+(autorow+number)+"号");
+                System.out.println("购票成功！在第"+autoLine+"排第"+(autoRow+number)+"号");
 
             }
             number++;
@@ -170,10 +169,10 @@ public class CustomService extends Service implements Ticket {
         //从数据库中得到厅的行列数
         String sql = "select * from MovieHall where Hall_id = ?";
         String[] param = {show.getHall_id()+""};
-        HallDaoimpl hallDaoimpl=new HallDaoimpl();
+        HallDaoImpl hallDaoimpl=new HallDaoImpl();
         List<Hall> hallList=hallDaoimpl.getHall(sql,param);
-        int row=hallList.get(0).getHall_rowsum();
-        int line=hallList.get(0).getHall_linesum();
+        int row=hallList.get(0).getHallRowSum();
+        int line=hallList.get(0).getHallLineSum();
         char[][] chars = new char[line][row];
         for(int i=0;i<line;i++){
             for(int j=0;j<row;j++){
@@ -183,11 +182,10 @@ public class CustomService extends Service implements Ticket {
         //用arrange表中的数据进行安排
         sql = "select * from arrange where arrange.hall_id = ? and arrange.arrange_time = ?";
         String[] param1 = {show.getHall_id()+"",show.getShow_time()+""};
-        TicketDaoimpl ticket= new TicketDaoimpl();
+        TicketDaoImpl ticket= new TicketDaoImpl();
         List<Arrange> arrangeList=ticket.search(sql,param1);
-        for(int i=0;i<arrangeList.size();i++){
-            Arrange arrange=arrangeList.get(i);
-            chars[arrange.getLine()-1][arrange.getRow()-1]='*';
+        for (Arrange arrange : arrangeList) {
+            chars[arrange.getLine() - 1][arrange.getRow() - 1] = '*';
         }
         printSeat(chars,line,row);
         System.out.println("\t\t\t _可选，*不可选");
@@ -237,14 +235,14 @@ public class CustomService extends Service implements Ticket {
         }
     }
     @Override
-    /**
-     * 退票实现
-     * */
+    /*
+      退票实现
+      */
     public void refund(){
         Scanner input = new Scanner(System.in);
         System.out.println("请输入电影名：");
         String movie_name=input.nextLine();
-        TicketDaoimpl ticket = new TicketDaoimpl();
+        TicketDaoImpl ticket = new TicketDaoImpl();
         List<Arrange> arrangeList=search(movie_name);
         if(arrangeList==null){
             System.out.println("没有可退的票哦~");
@@ -257,9 +255,9 @@ public class CustomService extends Service implements Ticket {
         }
         System.out.println("请输入退票序号");
         int c = input.nextInt();
-        Arrange delarrange=arrangeList.get(c-1);
+        Arrange delArrange=arrangeList.get(c-1);
         String sql = "delete from arrange where movie_id= ? and hall_id=? and Aud_id=? and Line = ? and Row = ?";
-        String[] param2 = {delarrange.getMovie_id()+"",delarrange.getHall_id()+"",super.getAud_id()+"",delarrange.getLine()+"",delarrange.getRow()+""};
+        String[] param2 = {delArrange.getMovie_id()+"",delArrange.getHall_id()+"",super.getAud_id()+"",delArrange.getLine()+"",delArrange.getRow()+""};
 
         if(ticket.delArrange(sql,param2)>0)
             System.out.println("退票成功是否继续退票(y/n)?");
@@ -267,15 +265,15 @@ public class CustomService extends Service implements Ticket {
             System.out.println("退票失败");
             return;
         }
-        char ct = '0';
+        char ct;
         ct = input.next().charAt(0);
         while (true) {
             if (ct == 'y'||ct == 'Y') {
                 System.out.println("请输入退票序号");
                 c = input.nextInt();
-                delarrange=arrangeList.get(c-1);
-                param2[3] = delarrange.getLine()+"";
-                param2[4] = delarrange.getRow()+"";
+                delArrange=arrangeList.get(c-1);
+                param2[3] = delArrange.getLine()+"";
+                param2[4] = delArrange.getRow()+"";
                 if(ticket.delArrange(sql,param2)>0){
                     System.out.println("退票成功是否继续退票(y/n)?");
                     ct = input.next().charAt(0);
@@ -291,12 +289,12 @@ public class CustomService extends Service implements Ticket {
 
     }
     @Override
-    /**
-     *改票实现
-     *  */
+    /*
+     改票实现
+       */
 
     public void change(){
-        TicketDaoimpl ticket = new TicketDaoimpl();
+        TicketDaoImpl ticket = new TicketDaoImpl();
         Scanner input = new Scanner(System.in);
         System.out.println("请输入电影名：");
         String movie_name =input.nextLine();
@@ -312,9 +310,9 @@ public class CustomService extends Service implements Ticket {
         }
         System.out.println("选择要改签的票序号");
         int c = input.nextInt();
-        Arrange changearrange=arrangeList.get(c-1);
+        Arrange changeArrange=arrangeList.get(c-1);
         String sql = "delete from arrange where movie_id= ? and hall_id=? and Aud_id=? and Line = ? and Row = ?";
-        String[] param2 = {changearrange.getMovie_id()+"",changearrange.getHall_id()+"",super.getAud_id()+"",changearrange.getLine()+"",changearrange.getRow()+""};
+        String[] param2 = {changeArrange.getMovie_id()+"",changeArrange.getHall_id()+"",super.getAud_id()+"",changeArrange.getLine()+"",changeArrange.getRow()+""};
         if(ticket.delArrange(sql,param2)>0) {
             //获得当前电影的其他场次
             sql="select Movie.Movie_id ,Show_time,Hall_id\n"+
@@ -334,15 +332,14 @@ public class CustomService extends Service implements Ticket {
             selfChooseSeat(showList.get(choice - 1));
         } else{
             System.out.println("改票失败失败");
-            return;
         }
 
     }
     @Override
-    /**
-     * 根据电影名进行查询
-     * 返回订票记录
-     * */
+    /*
+      根据电影名进行查询
+      返回订票记录
+      */
     public List<Arrange> search(String movie_name){
         //按电影名查找
         String sql="select Arrange.Aud_id,Arrange.Hall_id,Arrange.Movie_id,Line,Row,Arrange_time\n"
@@ -351,15 +348,14 @@ public class CustomService extends Service implements Ticket {
         Date date=new Date();
         Timestamp timestamp=new Timestamp(date.getTime());
         String[] param={timestamp.toString(),movie_name,super.getAud_id()+""};
-        TicketDaoimpl ticket=new TicketDaoimpl();
-        List<Arrange> arrangeList=ticket.search(sql,param);
-        return arrangeList;
+        TicketDaoImpl ticket=new TicketDaoImpl();
+        return ticket.search(sql,param);
     }
     @Override
-    /**
-     * 1.查询当前电影
-     * 2.查询订票记录
-     * */
+    /*
+      1.查询当前电影
+      2.查询订票记录
+      */
     public void find() {
         Scanner input = new Scanner(System.in);
         System.out.println("请输入查询类型 1.查询当前热映电影 2.查询订票记录");

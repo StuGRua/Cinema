@@ -7,7 +7,7 @@ import Authority.Normal;
 
 public class Role {
     private String description;// 角色名
-    private Manager Mgr = null;//管理权限
+    private Manager manager = null;//管理权限
     private Normal normal = null;//顾客权限
 
     //常用函数
@@ -17,11 +17,11 @@ public class Role {
     public void setDescription(String description) {
         this.description = description;
     }
-    public Manager getMange() {
-        return Mgr;
+    public Manager getManager() {
+        return manager;
     }
     public void setMange(Manager Mgr) {
-        this.Mgr = Mgr;
+        this.manager = Mgr;
     }
     public void setNormal(Normal normal) {
         this.normal = normal;
@@ -34,13 +34,12 @@ public class Role {
     * search
     * */
     public void search(){
-        if(normal == null&&Mgr==null){
+        if(normal == null&& manager ==null){
             System.out.println("您还没有登录，请登陆后再操作");
-            return;
         }else if(normal!=null){
             normal.search();
         }else{
-            Mgr.search();
+            manager.search();
         }
     }
 
@@ -48,43 +47,43 @@ public class Role {
      * addMovie
      * */
     public void addMovie(){
-        if(Mgr==null){
+        if(manager ==null){
             System.out.println("您没有管理员权限");
             return;
         }
-        Mgr.addMovie();
+        manager.addMovie();
     }
 
     /**
      * delMovie
      * */
     public void delMovie(){
-        if(Mgr==null){
+        if(manager ==null){
             System.out.println("您没有管理员权限");
             return;
         }
-        Mgr.delMovie();
+        manager.delMovie();
     }
     /**
      * addShow
      * */
     public void addShow(){
-        if(Mgr==null){
+        if(manager ==null){
             System.out.println("您没有管理员权限");
             return;
         }
-        Mgr.addShow();
+        manager.addShow();
     }
 
     /**
      * delShow
      * */
     public void delShow(){
-        if(Mgr==null){
+        if(manager ==null){
             System.out.println("您没有管理员权限");
             return;
         }
-        Mgr.delShow();
+        manager.delShow();
     }
     /**
      * change

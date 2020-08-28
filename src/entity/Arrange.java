@@ -1,18 +1,18 @@
-package entity;
+package Entity;
 
 import java.sql.Timestamp;
 
 public class Arrange {
-    private int Aud_id;
-    private int Hall_id;
-    private int Movie_id;
-    private int Line;
-    private int Row;
-    private Timestamp Arrange_time;
+    private int Aud_id;//场次id
+    private int Hall_id;//放映厅id
+    private int Movie_id;//电影id
+    private int Line;//排
+    private int Row;//列
+    private Timestamp Arrange_time;//放映时间
 
     public Arrange() {
     }
-
+/*
     public Arrange(int aud_id, int hall_id, int movie_id, int line, int row, Timestamp arrange_time) {
         Aud_id = aud_id;
         Hall_id = hall_id;
@@ -21,7 +21,7 @@ public class Arrange {
         Row = row;
         Arrange_time = arrange_time;
     }
-
+*/
     public int getAud_id() {
         return Aud_id;
     }

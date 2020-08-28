@@ -1,15 +1,12 @@
-package entity;
+package Entity;
 
 import java.sql.Timestamp;
 public class Movie {
     private int Movie_id;
     private String Movie_name;
     private double Movie_baseprice;
-    private String Movie_director;
-    private String Movie_type;
     private Timestamp Movie_starttime;
     private Timestamp Movie_endtime;
-    private String Movie_loc;
     private int Last_time;
 
     public Movie(){}

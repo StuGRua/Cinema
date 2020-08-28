@@ -2,9 +2,9 @@ package Service.impl;
 
 
 import DBopeartion.ChangeMovieDao;
-import DBopeartion.impl.ChangeMovieDaoimpl;
-import DBopeartion.impl.TicketDaoimpl;
-import entity.Movie;
+import DBopeartion.impl.ChangeMovieDaoImpl;
+import DBopeartion.impl.TicketDaoImpl;
+import Entity.Movie;
 
 import java.text.SimpleDateFormat;
 
@@ -38,9 +38,9 @@ public abstract class Service {
     }
 
     public List<String> getArrange() {
-        TicketDaoimpl ticket = new TicketDaoimpl();
+        TicketDaoImpl ticket = new TicketDaoImpl();
         List<List<String>> showList = ticket.findShow(Aud_id);
-        List<String> movieList =new ArrayList<String>();
+        List<String> movieList = new ArrayList<>();
                 /*
                 * 序号 电影名 影厅号 时间 影厅类型 电影时长 电影类型 导演 票价(base price+ add price)*/
         System.out.println("序号\t\t\t电影名\t\t\t\t影厅号\t\t时间\t\t\t\t\t\t\t\t影厅类型\t\t\t\t电影时长\t\t\t\t票价");
@@ -55,8 +55,8 @@ public abstract class Service {
     }
     public void getRecord(){
         //订票记录
-        TicketDaoimpl ticket = new TicketDaoimpl();
-        List<List<String>> showList=ticket.findticket(Aud_id);
+        TicketDaoImpl ticket = new TicketDaoImpl();
+        List<List<String>> showList=ticket.findTicket(Aud_id);
                 /* 电影名 厅号 厅类型 时间 用户名 座位 票价*/
         System.out.println("序号 \t\t电影名\t\t\t\t影厅号\t影厅类型\t\t\t时间\t\t\t\t\t\t\t用户名\t\t\t\t\t排\t\t列\t\t票价");
         for(int i=0;i<showList.size();i++){
@@ -66,12 +66,12 @@ public abstract class Service {
     }
     public void printAllMovie(){
         System.out.println("序号\t\t\t电影名\t\t\t\t电影票价\t\t上架时间\t\t\t\t\t\t下映时间\t\t\t\t\t\t电影时长");
-        ChangeMovieDao MovieDao = new ChangeMovieDaoimpl();
+        ChangeMovieDao MovieDao = new ChangeMovieDaoImpl();
         List<Movie> movieList= MovieDao.getAllMovie();
-        for(int i=0;i<movieList.size();i++){
+        for (Movie value : movieList) {
             Movie movie = new Movie();
-            movie = movieList.get(i);
-            System.out.format("%-8d\t%-14s\t%-8s\t%-26s\t%-26s\t%-8s\n",movie.getMovie_id(),movie.getMovie_name(),movie.getMovie_baseprice()+"元",movie.getMovie_starttime(),movie.getMovie_endtime(),movie.getLast_time()+"分钟");
+            movie = value;
+            System.out.format("%-8d\t%-14s\t%-8s\t%-26s\t%-26s\t%-8s\n", movie.getMovie_id(), movie.getMovie_name(), movie.getMovie_baseprice() + "元", movie.getMovie_starttime(), movie.getMovie_endtime(), movie.getLast_time() + "分钟");
         }
     }
 }

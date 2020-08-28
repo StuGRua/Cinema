@@ -2,9 +2,7 @@ package DBopeartion;
 import java.io.*;
 import java.sql.*;
 import java.util.*;
-/**
- * Created by diandian on 2019/7/4.
- */
+
 public class BaseDao {
     public static String DRIVER; // 数据库驱动
 
@@ -12,7 +10,7 @@ public class BaseDao {
 
     public static String DBNAME; // 数据库用户名
 
-    public static String DBPASS; // 数据库密码
+    public static String PASSWORD; // 数据库密码
 
     Connection conn = null;// 数据连接对象
 
@@ -39,26 +37,24 @@ public class BaseDao {
             DRIVER=params.getProperty("driver");
             URL=params.getProperty("url");
             DBNAME=params.getProperty("user");
-            DBPASS=params.getProperty("password");
+            PASSWORD =params.getProperty("password");
         }else {
             DRIVER="com.mysql.jdbc.Driver";
             URL="jdbc:mysql://localhost:3306/cinema?useUnicode=true&characterEncoding=UTF-8";
             DBNAME="root";
-            DBPASS="123456";
+            PASSWORD ="123456";
         }
     }
     /**
      * 得到数据库连接
      *
-     * @throws ClassNotFoundException
-     * @throws SQLException
      * @return 数据库连接
      */
-    public Connection getConn() throws ClassNotFoundException, SQLException {
+    public Connection getConn() throws ClassNotFoundException {
         Connection conn = null;
         try {
             Class.forName(DRIVER); // 注册驱动
-            conn = DriverManager.getConnection(URL, DBNAME, DBPASS); // 获得数据库连接
+            conn = DriverManager.getConnection(URL, DBNAME, PASSWORD); // 获得数据库连接
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -69,12 +65,12 @@ public class BaseDao {
      *
      * @param conn
      *            数据库连接
-     * @param pstmt
+     * @param prepareSql
      *            PreparedStatement对象
      * @param rs
      *            结果集
      */
-    public void closeAll(Connection conn, PreparedStatement pstmt, ResultSet rs) {
+    public void closeAll(Connection conn, PreparedStatement prepareSql, ResultSet rs) {
 
 		/* 如果rs不空，关闭rs */
         if (rs != null) {
@@ -84,10 +80,10 @@ public class BaseDao {
                 e.printStackTrace();
             }
         }
-		/* 如果pstmt不空，关闭pstmt */
-        if (pstmt != null) {
+		/* 如果prepareSql不空，关闭prepareSql */
+        if (prepareSql != null) {
             try {
-                pstmt.close();
+                prepareSql.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -112,26 +108,25 @@ public class BaseDao {
      */
     public int executeSQL(String preparedSql, Object[] param) {
         Connection conn = null;
-        PreparedStatement pstmt = null;
+        PreparedStatement prepareSql = null;
         int num = 0;
 
 		/* 处理SQL,执行SQL */
         try {
             conn = getConn(); // 得到数据库连接
-            pstmt = conn.prepareStatement(preparedSql); // 得到PreparedStatement对象
+            prepareSql = conn.prepareStatement(preparedSql); // 得到PreparedStatement对象
             if (param != null) {
                 for (int i = 0; i < param.length; i++) {
-                    pstmt.setObject(i + 1, param[i]); // 为预编译sql设置参数
+                    prepareSql.setObject(i + 1, param[i]); // 为预编译sql设置参数
                 }
             }
 
-            num = pstmt.executeUpdate(); // 执行SQL语句
-        } catch (ClassNotFoundException e) {
+            num = prepareSql.executeUpdate(); // 执行SQL语句
+        } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace(); // 处理ClassNotFoundException异常
-        } catch (SQLException e) {
-            e.printStackTrace(); // 处理SQLException异常
-        } finally {
-            this.closeAll(conn, pstmt, null);
+        } // 处理SQLException异常
+        finally {
+            this.closeAll(conn, prepareSql, null);
         }
         return num;
     }

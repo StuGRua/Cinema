@@ -3,9 +3,7 @@ package Authority.impl;
 import Authority.Normal;
 import Service.impl.CustomService;
 
-/**
- * Created by diandian on 2019/7/7.
- */
+
 public class DefaultCustomer implements Normal{
     private int Aud_id;
     public CustomService customservice=new CustomService(Aud_id);
