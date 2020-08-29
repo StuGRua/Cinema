@@ -80,12 +80,12 @@ public class TicketDaoImpl extends BaseDao implements TicketDao {
             Date date = new Date();
             Timestamp timestamp = new Timestamp(date.getTime());
             String preparedSql;
-            if (Aud_type.equals("Manager")) {
+            if (Aud_type.equals("Manager")) {//是管理员则获取全部订票记录
                 preparedSql = "select Movie.Movie_name,Moviehall.Hall_id,Moviehall.type,arrange_time,name,line,row,base_price as ticket_price " +
                         "from Arrange join Movie on Arrange.movie_id = Movie.movie_id " +
                         "join audience on audience.aud_id = arrange.aud_id " +
                         "join MovieHall on arrange.hall_id=MovieHall.Hall_id ";
-            } else {
+            } else {//非管理员则仅查询本id下的订票记录
                 preparedSql = "select Movie.Movie_name,Moviehall.Hall_id,Moviehall.type,arrange_time,name,line,row,base_price as ticket_price " +
                         "from Arrange join Movie on Arrange.movie_id = Movie.movie_id " +
                         "join audience on audience.aud_id = arrange.aud_id " +
@@ -95,7 +95,7 @@ public class TicketDaoImpl extends BaseDao implements TicketDao {
             conn = getConn();
             prepareSql = conn.prepareStatement(preparedSql);
             rs = prepareSql.executeQuery(); //执行
-            while (rs.next()) {
+            while (rs.next()) {//对结果集合进行写入
                 List<String> show = new ArrayList<>();
                 show.add(rs.getString(1) + "");
                 show.add(rs.getInt(2) + "");

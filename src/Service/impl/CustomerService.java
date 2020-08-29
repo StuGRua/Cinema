@@ -90,12 +90,14 @@ public class CustomerService extends Service implements Ticket {
         List<Hall> hallList = hallDaoimpl.getHall(sql, param);
         int row = hallList.get(0).getHallRowSum();
         int line = hallList.get(0).getHallLineSum();
+
         //得到当前选票数据
         sql = "select * from arrange where arrange.hall_id = ? and arrange.arrange_time = ?";
         String[] param1 = {show.getHall_id() + "", show.getShow_time() + ""};
         TicketDaoImpl ticket = new TicketDaoImpl();
         List<ArrangeTicket> arrangeTicketList = ticket.search(sql, param1);
 
+        //生成选座数组
         char[][] chars = new char[line][row];
         for (int i = 0; i < line; i++) {
             for (int j = 0; j < row; j++) {
@@ -104,7 +106,7 @@ public class CustomerService extends Service implements Ticket {
         }
         for (ArrangeTicket arrangeTicket : arrangeTicketList) {
             chars[arrangeTicket.getLine() - 1][arrangeTicket.getRow() - 1] = '*';
-        }//生成选座数组
+        }
 
 
         //---------------------------------------------
