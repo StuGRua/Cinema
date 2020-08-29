@@ -1,45 +1,55 @@
 package Service.impl;
-
-
 import DBopeartion.ChangeMovieDao;
 import DBopeartion.impl.ChangeMovieDaoImpl;
 import DBopeartion.impl.TicketDaoImpl;
 import Entity.Movie;
-
+import Entity.Hall;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 
-/**
- * 影院服务：查询电影&放映记录
- */
+/* *
+ * @Author 朝喜
+ * @Description 影院服务：查询电影&放映记录
+ * @Date  2020-8-6
+ **/
+
 public abstract class Service {
     java.text.SimpleDateFormat format =
             new SimpleDateFormat("yyyy-MM-dd");//时间-上映
     java.text.SimpleDateFormat format2 =
             new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//时间-播放时间（具体）
     private int Aud_id;
+    private String Aud_type;
 
     public Service() {
     }
 
-    public Service(int Aud_id) {
+    public Service(int Aud_id,String Aud_type) {
+
         this.Aud_id = Aud_id;
+        this.Aud_type = Aud_type;
     }
 
     public int getAud_id() {
+
         return Aud_id;
     }
 
     public void setAud_id(int aud_id) {
+
         Aud_id = aud_id;
     }
 
-    public List<String> getArrange() {
+    /**
+     *  查询放映列表
+     * @return 放映列表
+     */
+    public List<String> getShow() {
         TicketDaoImpl ticket = new TicketDaoImpl();
         List<List<String>> showList = ticket.findShow(Aud_id);
-        List<String> movieList = new ArrayList<>();
+        List<String> showsList = new ArrayList<>();
         /*
          * 序号 电影名 影厅号 时间 影厅类型 电影时长 票价
          */
@@ -48,17 +58,20 @@ public abstract class Service {
             List<String> show = showList.get(i);
             String str = String.format("%-8d\t%-14s\t%-8s\t%-30s\t%-16s\t%-15s\t%-10s\n", i + 1, show.get(0), show.get(1) + "号厅", show.get(2), show.get(3), show.get(4) + "分钟", show.get(5) + "元");
             System.out.print(str);
-            //System.out.println((i + 1) + "\t" + show.get(0) + "\t" + show.get(1) + "号厅\t" + show.get(2) + "\t" + show.get(3) + "\t" + show.get(4) + "\t" + show.get(5) + "\t" + show.get(6) + "\t" + show.get(7));
-            movieList.add(show.get(0));
+            showsList.add(show.get(0));
         }
-        return movieList;
+        return showsList;
     }
 
+    /**
+     * 订票记录（根据用户类型决定输出信息范围）
+     */
     public void getRecord() {
-        //订票记录
         TicketDaoImpl ticket = new TicketDaoImpl();
-        List<List<String>> showList = ticket.findTicket(Aud_id);
-        /* 电影名 厅号 厅类型 时间 用户名 座位 票价*/
+        List<List<String>> showList = ticket.findTicket(Aud_id,Aud_type);
+        /*
+        * 电影名 厅号 厅类型 时间 用户名 座位 票价
+        */
         System.out.println("序号 \t\t电影名\t\t\t\t影厅号\t影厅类型\t\t\t时间\t\t\t\t\t\t\t用户名\t\t\t\t\t排\t\t列\t\t票价");
         for (int i = 0; i < showList.size(); i++) {
             List<String> show = showList.get(i);
@@ -66,6 +79,9 @@ public abstract class Service {
         }
     }
 
+    /**
+     * 所有电影信息
+     */
     public void printAllMovie() {
         System.out.println("序号\t\t\t电影名\t\t\t\t\t电影票价\t\t上架时间\t\t\t\t\t\t下映时间\t\t\t\t\t\t电影时长");
         ChangeMovieDao MovieDao = new ChangeMovieDaoImpl();

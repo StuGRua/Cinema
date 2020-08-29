@@ -1,5 +1,11 @@
 package Entity;
 
+/* *
+ * @Author 朝喜
+ * @Description 大厅实体
+ * @Date  2020-7-30
+ **/
+
 public class Hall {
     private int HallId;
     private String HallType;

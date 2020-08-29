@@ -2,7 +2,14 @@ package Entity;
 
 import java.sql.Timestamp;
 
-public class Arrange {
+
+/* *
+ * @Author 朝喜
+ * @Description 票实体
+ * @Date  2020-7-30
+ **/
+
+public class ArrangeTicket {
     private int Aud_id;//场次id
     private int Hall_id;//放映厅id
     private int Movie_id;//电影id
@@ -10,19 +17,18 @@ public class Arrange {
     private int Row;//列
     private Timestamp Arrange_time;//放映时间
 
-    public Arrange() {
+    public ArrangeTicket() {
     }
 
-    /*
-        public Arrange(int aud_id, int hall_id, int movie_id, int line, int row, Timestamp arrange_time) {
-            Aud_id = aud_id;
-            Hall_id = hall_id;
-            Movie_id = movie_id;
-            Line = line;
-            Row = row;
-            Arrange_time = arrange_time;
-        }
-    */
+    public ArrangeTicket(int aud_id, int hall_id, int movie_id, int line, int row, Timestamp arrange_time) {
+        Aud_id = aud_id;
+        Hall_id = hall_id;
+        Movie_id = movie_id;
+        Line = line;
+        Row = row;
+        Arrange_time = arrange_time;
+    }
+
     public int getAud_id() {
         return Aud_id;
     }

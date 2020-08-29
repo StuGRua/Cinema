@@ -1,8 +1,13 @@
-package User;
+package Authority;
+import User.Normal;
+import User._Manager;
 
-import Authority._Manager;
-import Authority.Normal;
 
+/* *
+ * @Author 朝喜
+ * @Description 权限规则类，限制各类型用户所做操作
+ * @Date  2020-8-12
+ **/
 
 public class Role {
     private String description;// 角色名
@@ -22,7 +27,7 @@ public class Role {
         return manager;
     }
 
-    public void setMange(_Manager Mgr) {
+    public void setManager(_Manager Mgr) {
         this.manager = Mgr;
     }
 
@@ -35,93 +40,94 @@ public class Role {
     }
 
     /**
-     * search
+     * 查询（实现分用户类型查询）
      */
-    public void search() {
+    public void Search() {
         if (normal == null && manager == null) {
             System.out.println("您还没有登录，请登陆后再操作");
         } else if (normal != null) {
-            normal.search();
+            normal.Search();
         } else {
-            manager.search();
+            manager.Search();
         }
     }
 
     /**
      * addMovie
      */
-    public void addMovie() {
+    public void AddMovie() {
         if (manager == null) {
             System.out.println("您没有管理员权限");
             return;
         }
-        manager.addMovie();
+        manager.AddMovie();
     }
 
     /**
      * delMovie
      */
-    public void delMovie() {
+    public void DelMovie() {
         if (manager == null) {
             System.out.println("您没有管理员权限");
             return;
         }
-        manager.delMovie();
+        manager.DelMovie();
     }
 
     /**
      * addShow
      */
-    public void addShow() {
+    public void AddShow() {
         if (manager == null) {
             System.out.println("您没有管理员权限");
             return;
         }
-        manager.addShow();
+        manager.AddShow();
     }
 
     /**
      * delShow
      */
-    public void delShow() {
+    public void DelShow() {
         if (manager == null) {
             System.out.println("您没有管理员权限");
             return;
         }
-        manager.delShow();
+        manager.DelShow();
     }
+
 
     /**
      * change
      */
-    public void change() {
+    public void Change() {
         if (normal == null) {
             System.out.println("您还没有登录，请登陆后再操作");
             return;
         }
-        normal.change();
+        normal.Change();
     }
 
     /**
      * order
      */
-    public void order() {
+    public void Order() {
         if (normal == null) {
             System.out.println("您还没有登录，请登陆后再操作");
             return;
         }
-        normal.order();
+        normal.Order();
     }
 
     /**
      * refund
      */
-    public void refund() {
+    public void Refund() {
         if (normal == null) {
             System.out.println("您还没有登录，请登陆后再操作");
             return;
         }
-        normal.refund();
+        normal.Refund();
     }
 
 }

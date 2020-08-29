@@ -5,6 +5,12 @@ import java.io.InputStream;
 import java.sql.*;
 import java.util.Properties;
 
+/* *
+ * @Author StuG
+ * @Description BaseDao类为Dao类基类，提供基础的数据库连接操作；每一个Dao类都继承BaseDao类, 而且都有各自的接口。
+ * @Date  2020-8-1
+ **/
+
 public class BaseDao {
     public static String DRIVER; // 数据库驱动
 
@@ -44,8 +50,8 @@ public class BaseDao {
         } else {
             DRIVER = "com.mysql.jdbc.Driver";
             URL = "jdbc:mysql://localhost:3306/cinema?useUnicode=true&characterEncoding=UTF-8";
-            DBNAME = "root";
-            PASSWORD = "123456";
+            DBNAME = "StuG";
+            PASSWORD = "x74rtw05";
         }
     }
 

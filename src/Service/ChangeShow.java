@@ -1,12 +1,15 @@
 package Service;
 
-/**
- * 管理员添加、删除、修改场次
- */
+/* *
+ * @Author StuG
+ * @Description 放映接口：管理员添加、删除、修改场次
+ * @Date  2020-8-5
+ **/
+
 public interface ChangeShow {
-    void addShow();
+    void AddShow();
 
-    void delShow();
+    void DelShow();
 
-    void changeShow();
+    void ChangeShow();
 }

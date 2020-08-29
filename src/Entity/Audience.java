@@ -1,5 +1,11 @@
 package Entity;
 
+/* *
+ * @Author 朝喜
+ * @Description 用户实体
+ * @Date  2020-7-30
+ **/
+
 public class Audience {
     private int Aud_id;
     private String Aud_name;

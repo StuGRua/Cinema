@@ -1,10 +1,13 @@
 package Service;
 
-/**
- * @author Bear  管理员添加、删除影片
- */
-public interface ChangeMovie {
-    void addMovie();
+/* *
+ * @Author StuG
+ * @Description 影片接口：管理员添加、删除影片
+ * @Date  2020-8-5
+ **/
 
-    void delMovie();
+public interface ChangeMovie {
+    void AddMovie();
+
+    void DelMovie();
 }

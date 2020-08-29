@@ -1,5 +1,4 @@
 package Service.impl;
-
 import DBopeartion.ChangeMovieDao;
 import DBopeartion.TicketDao;
 import DBopeartion.UserDao;
@@ -12,20 +11,26 @@ import Entity.Movie;
 import Entity.Show;
 import Service.ChangeMovie;
 import Service.ChangeShow;
-
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
+
+/* *
+ * @Author 朝喜
+ * @Description 管理员服务类
+ * @Date  2020-8-8
+ **/
+
 public class ManagerService extends Service implements ChangeShow, ChangeMovie {
-    public ManagerService(int Aud_id) {
-        super(Aud_id);
+    public ManagerService(int Aud_id,String Aud_type) {
+        super(Aud_id,Aud_type);
     }
 
     @Override
-    public void addMovie() {
+    public void AddMovie() {
         Scanner input = new Scanner(System.in);
         System.out.println("请输入电影id：");
         int movie_id = input.nextInt();
@@ -60,23 +65,23 @@ public class ManagerService extends Service implements ChangeShow, ChangeMovie {
     }
 
     @Override
-    public void delMovie() {
+    public void DelMovie() {
         Scanner input = new Scanner(System.in);
         System.out.println("请输入电影id：");
         int movie_id = input.nextInt();
         Movie temp = new Movie();
         temp.setMovie_id(movie_id);
-        ChangeMovieDao changeMovieDaoimpl = new ChangeMovieDaoImpl();
+        ChangeMovieDao changeMovieDaoImpl = new ChangeMovieDaoImpl();
         Object[] param = {temp.getMovie_id()};
-        temp = changeMovieDaoimpl.getMovie(param);
+        temp = changeMovieDaoImpl.getMovie(param);
         String sql = "delete from Movie where Movie_id=?";
-        int count = changeMovieDaoimpl.updateMovie(sql, param);
+        int count = changeMovieDaoImpl.updateMovie(sql, param);
         if (count > 0)
             System.out.println("成功删除：" + temp.getMovie_name() + "影片");
     }
 
     @Override
-    public void addShow() {
+    public void AddShow() {
         System.out.println("电影信息：");
         printAllMovie();
         Scanner input = new Scanner(System.in);
@@ -104,11 +109,11 @@ public class ManagerService extends Service implements ChangeShow, ChangeMovie {
     }
 
     @Override
-    public void delShow() {
+    public void DelShow() {
         System.out.println("电影信息：");
         printAllMovie();
         System.out.println("放映信息：");
-        getArrange();
+        getShow();
         Scanner input = new Scanner(System.in);
         System.out.println("请输入电影id：");
         int movie_id = input.nextInt();
@@ -135,7 +140,7 @@ public class ManagerService extends Service implements ChangeShow, ChangeMovie {
     }
 
     @Override
-    public void changeShow() {
+    public void ChangeShow() {
         Scanner input = new Scanner(System.in);
         System.out.println("请输入原电影id：");
         int movie_id_old = input.nextInt();
@@ -193,7 +198,7 @@ public class ManagerService extends Service implements ChangeShow, ChangeMovie {
             int i = input.nextInt();
             switch (i) {
                 case 1:
-                    getArrange();
+                    getShow();
                     break;
                 case 2:
                     printAllMovie();

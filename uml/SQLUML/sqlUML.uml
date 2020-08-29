@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>DATABASE</ID>
+  <OriginalElement>1437d8ff-1e58-4fa0-8c28-4475b5da6b75.SCHEMA:cinema</OriginalElement>
+  <nodes>
+    <node x="534.5" y="377.5">1437d8ff-1e58-4fa0-8c28-4475b5da6b75.TABLE:cinema.moviehall</node>
+    <node x="523.5" y="109.5">1437d8ff-1e58-4fa0-8c28-4475b5da6b75.TABLE:cinema.show</node>
+    <node x="751.0" y="74.5">1437d8ff-1e58-4fa0-8c28-4475b5da6b75.TABLE:cinema.movie</node>
+    <node x="275.5" y="75.0">1437d8ff-1e58-4fa0-8c28-4475b5da6b75.TABLE:cinema.arrange</node>
+    <node x="-3.0" y="86.0">1437d8ff-1e58-4fa0-8c28-4475b5da6b75.TABLE:cinema.audience</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="1437d8ff-1e58-4fa0-8c28-4475b5da6b75.TABLE:cinema.arrange" target="1437d8ff-1e58-4fa0-8c28-4475b5da6b75.TABLE:cinema.show">
+      <point x="0.0" y="85.0" />
+      <point x="360.0" y="320.0" />
+      <point x="560.0" y="320.0" />
+      <point x="-40.0" y="50.5" />
+    </edge>
+    <edge source="1437d8ff-1e58-4fa0-8c28-4475b5da6b75.TABLE:cinema.show" target="1437d8ff-1e58-4fa0-8c28-4475b5da6b75.TABLE:cinema.moviehall">
+      <point x="0.0" y="50.5" />
+      <point x="0.0" y="-62.5" />
+    </edge>
+    <edge source="1437d8ff-1e58-4fa0-8c28-4475b5da6b75.TABLE:cinema.arrange" target="1437d8ff-1e58-4fa0-8c28-4475b5da6b75.TABLE:cinema.audience">
+      <point x="-84.5" y="-0.0" />
+      <point x="83.0" y="-0.0" />
+    </edge>
+    <edge source="1437d8ff-1e58-4fa0-8c28-4475b5da6b75.TABLE:cinema.show" target="1437d8ff-1e58-4fa0-8c28-4475b5da6b75.TABLE:cinema.movie">
+      <point x="76.5" y="-0.0" />
+      <point x="-89.0" y="-0.0" />
+    </edge>
+  </edges>
+  <settings layout="Directed Orthogonal" zoom="1.0" x="463.0" y="288.5" />
+  <SelectedNodes>
+    <node>1437d8ff-1e58-4fa0-8c28-4475b5da6b75.TABLE:cinema.moviehall</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>键列</Category>
+    <Category>列</Category>
+    <Category>虚拟外键</Category>
+  </Categories>
+</Diagram>
+

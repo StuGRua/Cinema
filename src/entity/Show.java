@@ -2,6 +2,12 @@ package Entity;
 
 import java.sql.Timestamp;
 
+/* *
+ * @Author 朝喜
+ * @Description 放映类实体
+ * @Date  2020-8-1
+ **/
+
 public class Show {
     private int Hall_id;
     private int Movie_id;

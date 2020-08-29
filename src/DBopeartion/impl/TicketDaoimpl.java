@@ -1,14 +1,18 @@
 package DBopeartion.impl;
-
 import DBopeartion.BaseDao;
 import DBopeartion.TicketDao;
-import Entity.Arrange;
+import Entity.ArrangeTicket;
 import Entity.Show;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+/* *
+ * @Author StuG
+ * @Description 持久层核心功能类，负责对票务的操作
+ * @Date  2020-8-1
+ **/
 
 public class TicketDaoImpl extends BaseDao implements TicketDao {
     private Connection conn = null; // 保存数据库连接
@@ -17,10 +21,22 @@ public class TicketDaoImpl extends BaseDao implements TicketDao {
 
     private ResultSet rs = null; // 用户保存查询到的结果集
 
-    /**
-     * 当前时间的 电影名 影厅号 时间 影厅类型 电影时长 票价
-     */
+    private void connectSql(String sql, String[] param) throws ClassNotFoundException, SQLException {
+        conn = getConn();
+        prepareSql = conn.prepareStatement(sql);
+        if (param != null) {
+            for (int i = 0; i < param.length; i++) {
+                prepareSql.setString(i + 1, param[i]);
+            }
+        }
+        rs = prepareSql.executeQuery();
+    }
 
+    /**
+     *
+     * @param Aud_id 用户id
+     * @return 返回当前时间结果集：当前时间的 电影名 影厅号 时间 影厅类型 电影时长 票价
+     */
     @Override
     public List<List<String>> findShow(int Aud_id) {
         List<List<String>> showList = new ArrayList<>();
@@ -54,16 +70,17 @@ public class TicketDaoImpl extends BaseDao implements TicketDao {
     }
 
     /**
-     * 电影名 厅号 厅类型 时间 用户名 座位 票价
+     * @param Aud_id 用户id
+     * @return 通过用户id或与权限寻找所定票：电影名 厅号 厅类型 时间 用户名 座位 票价
      */
     @Override
-    public List<List<String>> findTicket(int Aud_id) {
+    public List<List<String>> findTicket(int Aud_id,String Aud_type) {
         List<List<String>> showList = new ArrayList<>();
         try {
             Date date = new Date();
             Timestamp timestamp = new Timestamp(date.getTime());
             String preparedSql;
-            if (Aud_id == 1 || Aud_id == 2) {
+            if (Aud_type.equals("Manager")) {
                 preparedSql = "select Movie.Movie_name,Moviehall.Hall_id,Moviehall.type,arrange_time,name,line,row,base_price as ticket_price " +
                         "from Arrange join Movie on Arrange.movie_id = Movie.movie_id " +
                         "join audience on audience.aud_id = arrange.aud_id " +
@@ -99,19 +116,14 @@ public class TicketDaoImpl extends BaseDao implements TicketDao {
     }
 
 
-    //根据特定的条件查找场次
+    /*
+     *根据特定的条件查找场次
+     */
     @Override
     public List<Show> getShow(String sql, String[] param) {
         List<Show> showList = new ArrayList<>();
         try {
-            conn = getConn();
-            prepareSql = conn.prepareStatement(sql);
-            if (param != null) {
-                for (int i = 0; i < param.length; i++) {
-                    prepareSql.setString(i + 1, param[i]);
-                }
-            }
-            rs = prepareSql.executeQuery();
+            connectSql(sql, param);
             while (rs.next()) {
                 Show show = new Show();
                 show.setHall_id(rs.getInt(3));
@@ -127,27 +139,27 @@ public class TicketDaoImpl extends BaseDao implements TicketDao {
         return showList;
     }
 
+
+
+    /**
+     * @param sql   sql预编译语句
+     * @param param 语句参数
+     * @return 返回购票列表
+     */
     @Override
-    public List<Arrange> search(String sql, String[] param) {
-        List<Arrange> arrangesList = new ArrayList<>();
+    public List<ArrangeTicket> search(String sql, String[] param) {
+        List<ArrangeTicket> arrangesList = new ArrayList<>();
         try {
-            conn = getConn();
-            prepareSql = conn.prepareStatement(sql);
-            if (param != null) {
-                for (int i = 0; i < param.length; i++) {
-                    prepareSql.setString(i + 1, param[i]);
-                }
-            }
-            rs = prepareSql.executeQuery();
+            connectSql(sql, param);
             while (rs.next()) {
-                Arrange arrange = new Arrange();
-                arrange.setAud_id(rs.getInt(1));
-                arrange.setHall_id(rs.getInt(2));
-                arrange.setMovie_id(rs.getInt(3));
-                arrange.setLine(rs.getInt(4));
-                arrange.setRow(rs.getInt(5));
-                arrange.setArrange_time(rs.getTimestamp(6));
-                arrangesList.add(arrange);
+                ArrangeTicket arrangeTicket = new ArrangeTicket();
+                arrangeTicket.setAud_id(rs.getInt(1));
+                arrangeTicket.setHall_id(rs.getInt(2));
+                arrangeTicket.setMovie_id(rs.getInt(3));
+                arrangeTicket.setLine(rs.getInt(4));
+                arrangeTicket.setRow(rs.getInt(5));
+                arrangeTicket.setArrange_time(rs.getTimestamp(6));
+                arrangesList.add(arrangeTicket);
             }
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
@@ -157,6 +169,7 @@ public class TicketDaoImpl extends BaseDao implements TicketDao {
         return arrangesList;
     }
 
+    //下列皆为为下一层直接调用直接进行sql操作的接口（仅为传递作用）
     @Override
     public int insertArrange(String sql, String[] param) {
         return super.executeSQL(sql, param);
