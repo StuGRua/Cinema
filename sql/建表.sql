@@ -53,7 +53,7 @@ create table audience
 
 create index Aud_id
     on audience (Aud_id);
-
+INSERT INTO cinema.audience (Aud_id, Name, Password, Tel, Type) VALUES (0, '0', '0', '0', 'Manager');
 INSERT INTO cinema.audience (Aud_id, Name, Password, Tel, Type) VALUES (1, 'StuG', 'x74rtw05', '18687839701', 'Manager');
 INSERT INTO cinema.audience (Aud_id, Name, Password, Tel, Type) VALUES (2, '朝喜', '2', '2', 'Manager');
 INSERT INTO cinema.audience (Aud_id, Name, Password, Tel, Type) VALUES (4, '1', '1', '1', 'Manager');

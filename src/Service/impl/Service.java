@@ -30,6 +30,7 @@ public abstract class Service {
 
         this.Aud_id = Aud_id;
         this.Aud_type = Aud_type;
+        System.out.println("服务类型为："+this.Aud_type);
     }
 
     public int getAud_id() {

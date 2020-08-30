@@ -110,8 +110,8 @@ public class User {
                 if (password.equals(password2)) {
                     System.out.println("请输入您的电话");
                     String tel = scanner.next();
-                    Save(map.size() + 1, name, tel, "Authority", password);
-                    map.put(name, new Audience(map.size() + 1, name, tel, "Authority", password));
+                    Save(map.size() + 1, name, tel, "User", password);
+                    map.put(name, new Audience(map.size() + 1, name, tel, "User", password));
                     return true;
                 } else
                     System.out.println("两次密码输入必须相同！");

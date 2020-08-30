@@ -26,7 +26,7 @@ import java.util.Scanner;
 
 public class ManagerService extends Service implements ChangeShow, ChangeMovie {
     public ManagerService(int Aud_id,String Aud_type) {
-        super(Aud_id,Aud_type);
+        super(Aud_id,"Manager");
     }
 
     @Override
@@ -193,6 +193,7 @@ public class ManagerService extends Service implements ChangeShow, ChangeMovie {
         Scanner input = new Scanner(System.in);
 
         while (true) {
+            System.out.println("-------------管理员查询-------------");
             System.out.println("请输入查询类型 1.查询所有放映记录 2.查询所有电影 3.查询所有用户4.查询所有订票记录5.返回");
 
             int i = input.nextInt();

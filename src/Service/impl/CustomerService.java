@@ -20,7 +20,8 @@ import java.util.Scanner;
 public class CustomerService extends Service implements Ticket {
 
     public CustomerService(int Aud_id,String Aud_type) {
-        super(Aud_id,Aud_type);
+
+        super(Aud_id,"User");
     }
 
     @Override
@@ -47,7 +48,8 @@ public class CustomerService extends Service implements Ticket {
                 "from `Show` join Movie on Movie.Movie_id =Show.Movie_id\n" +
                 "where Movie_name like ?";
         String[] param = {"%" + movie_name + "%"};
-        List<Show> showList = ticket.getShow(sql, param);
+        List<Show> showList = ticket.getShow(sql, param);//得到放映列表
+
         System.out.println("序号\t\t\t电影名\t\t\t\t厅号\t\t时间");
         for (i = 0; i < showList.size(); i++) {
             Show show = showList.get(i);
@@ -65,8 +67,13 @@ public class CustomerService extends Service implements Ticket {
                 break;
         }
         System.out.println("您已选择：\n" + choice + "\t" + movie_name + "\t" + showList.get(choice - 1).getHall_id() + "号厅\t" + showList.get(choice - 1).getShow_time());
+        int maxTickets=showNumberMax(showList.get(choice-1));
         System.out.println("请选择预订的电影票数");
         int num = input.nextInt();
+        if (num>maxTickets){
+            System.out.println("超出最大电影票余量，订票失败！");
+            return;
+        }
         System.out.println("是否手动选座：（y/n）");
         char c = input.next().charAt(0);
         if (c == 'y' || c == 'Y') {
@@ -79,6 +86,31 @@ public class CustomerService extends Service implements Ticket {
         }
     }
 
+    /**
+     * 输出该场次已选座/总容量，并返回余量
+     * @param show 所选场次
+     */
+    public int showNumberMax(Show show){
+        //得到当前影厅行数和列数
+        String sql = "select * from MovieHall where Hall_id = ?";
+        String[] param = {show.getHall_id() + ""};
+        HallDaoImpl hallDaoimpl = new HallDaoImpl();
+        List<Hall> hallList = hallDaoimpl.getHall(sql, param);
+        int row = hallList.get(0).getHallRowSum();
+        int line = hallList.get(0).getHallLineSum();
+        int countTickets=0;
+        //得到当前选票数据
+        sql = "select * from arrange where arrange.hall_id = ? and arrange.arrange_time = ?";
+        String[] param1 = {show.getHall_id() + "", show.getShow_time() + ""};
+        TicketDaoImpl ticket = new TicketDaoImpl();
+        List<ArrangeTicket> arrangeTicketList = ticket.search(sql, param1);
+
+        for (ArrangeTicket ignored : arrangeTicketList) {
+            countTickets++;
+        }
+        System.out.println("该场次已选座/总容量为："+(countTickets+"")+"/"+(line*row+"")+"，剩余量为"+(line*row-countTickets+""));
+        return line*row-countTickets;
+    }
     /**
      * 自动选座
      */
@@ -404,6 +436,7 @@ public class CustomerService extends Service implements Ticket {
       */
     public void Find() {
         Scanner input = new Scanner(System.in);
+        System.out.println("-------------普通用户查询-------------");
         System.out.println("请输入查询类型 1.查询当前上映电影 2.查询订票记录");
         int c = input.nextInt();
         while (true) {

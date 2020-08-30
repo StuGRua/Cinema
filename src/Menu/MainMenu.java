@@ -98,6 +98,7 @@ public class MainMenu {
                         user.Search();
                         break;
                     case 2:
+                        System.out.println("-------------影片管理系统-------------");
                         System.out.println("1.上架影片\t2.下架影片\t3.返回");
                         temp2 = inCheck();
                         switch (temp2) {
@@ -112,6 +113,7 @@ public class MainMenu {
                         }
                         break;
                     case 3:
+                        System.out.println("-------------放映管理系统-------------");
                         System.out.println("1.开始放映\t2.结束放映\t3.返回");
                         temp2 = inCheck();
                         switch (temp2) {
